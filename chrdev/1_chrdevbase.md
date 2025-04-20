@@ -6,20 +6,20 @@
 
 新建一个文件夹/home/hya/workspace/Linux_drivers/1_chrdevbase
 
-创建驱动文件
+####1、创建驱动文件chrdevbase.c
 
 ```c
 #include <linux/module.h>
 
 static int chrdevbase_init(void)
 {
-printk("chrdevbase_init\n");
-return 0;
+	printk("chrdevbase_init\n");
+	return 0;
 }
 
 static void chrdevbase_exit(void)
 {
-printk("chrdevbase_exit\n");
+	printk("chrdevbase_exit\n");
 }
 
 /*
@@ -35,8 +35,7 @@ MODULE_AUTHOR("HYA");           // 可选（作者信息）
 
 ```
 
-创建Makefile文件
-
+####2、创建Makefile文件
 在写Makefile文件时要注意格式的缩进，另外在rv1106平台上，要配置好交叉编译器的路径
 
 ```shell
@@ -58,7 +57,7 @@ clean:
 	rm -f *.ko *.o *.mod *.mod.o *.mod.c *.symvers *.order
 ```
 
-在~/workspace/Linux_drivers/1_chrdevbase下执行make
+####3、在~/workspace/Linux_drivers/1_chrdevbase下执行make
 
 ```shell
 hya@hya:~/workspace/Linux_drivers/1_chrdevbase$ ls
@@ -66,11 +65,7 @@ chrdevbase.c   chrdevbase.mod    chrdevbase.mod.o  Makefile       Module.symvers
 chrdevbase.ko  chrdevbase.mod.c  chrdevbase.o      modules.order
 ```
 
-执行完成后会生成chrdevbase.ko文件
-
-将ko文件通过adb push到rv1106板端
-
-通过insmod和rmmod注册和卸载模块
+执行完成后会生成chrdevbase.ko文件，将ko文件通过adb push到rv1106板端，通过insmod和rmmod注册和卸载模块
 
 ```shell
 [root@luckfox ]# insmod chrdevbase.ko 

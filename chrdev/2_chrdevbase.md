@@ -9,15 +9,14 @@ static inline int register_chrdev(unsigned int major, const char *name,
 static inline void unregister_chrdev(unsigned int major, const char *name)
 ```
 ### register_chrdev 与 unregister_chrdev函数
-**register_chrdev 函数**用于注册字符设备，此函数一共有三个参数，这三个参数的含义如下：
+**register_chrdev 函数**用于注册字符设备，此函数一共有三个参数，这三个参数的含义如下：  
+major：主设备号， Linux 下每个设备都有一个设备号，设备号分为主设备号和次设备号两部分。  
+name：设备名字，指向一串字符串。  
+fops：结构体 file_operations 类型指针，指向设备的操作函数集合变量。  
 
-major：主设备号， Linux 下每个设备都有一个设备号，设备号分为主设备号和次设备号两部分。
-name：设备名字，指向一串字符串。
-fops：结构体 file_operations 类型指针，指向设备的操作函数集合变量。
-
-**unregister_chrdev 函数**用户注销字符设备，此函数有两个参数，这两个参数含义如下：
-major：要注销的设备对应的主设备号。
-name：要注销的设备对应的设备名。
+**unregister_chrdev 函数**用户注销字符设备，此函数有两个参数，这两个参数含义如下：  
+major：要注销的设备对应的主设备号。  
+name：要注销的设备对应的设备名。  
 
 一般字符设备的注册在驱动模块的入口函数 xxx_init 中进行，字符设备的注销在驱动模块的出口函数 xxx_exit 中进行。 需要注意的是 register_chrdev 与 unregister_chrdev函数在注册字符设备驱动时，会将主设备号下的所有设备都注册掉，即你无法再使用次设备号了，所以在后面的Linux内核中，这种方法已经被逐渐弃用了。 
 

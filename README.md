@@ -4,7 +4,7 @@
 开发板为luckfox的rv1106开发板，之前参加过一个CM1相机的开源项目，与其吃灰不如作为一个学习的工具来发挥余热
 ![Logo](images/1.png)
 ![Logo](images/2.jpg)
-![Logo](images/3.jgp)
+![Logo](images/3.jpg)
 
 所以文档中的一些东西需要对应的在rv1106平台上做修改，创建此专栏记录驱动学习的路程和心得
 

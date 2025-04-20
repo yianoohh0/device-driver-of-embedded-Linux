@@ -5,8 +5,7 @@
 ### chrdevbase 字符设备驱动开发实验
 
 新建一个文件夹/home/hya/workspace/Linux_drivers/1_chrdevbase
-
-####1、创建驱动文件chrdevbase.c
+#### 1、创建驱动文件chrdevbase.c
 
 ```c
 #include <linux/module.h>
@@ -35,7 +34,7 @@ MODULE_AUTHOR("HYA");           // 可选（作者信息）
 
 ```
 
-####2、创建Makefile文件
+#### 2、创建Makefile文件
 在写Makefile文件时要注意格式的缩进，另外在rv1106平台上，要配置好交叉编译器的路径
 
 ```shell
@@ -57,7 +56,7 @@ clean:
 	rm -f *.ko *.o *.mod *.mod.o *.mod.c *.symvers *.order
 ```
 
-####3、在~/workspace/Linux_drivers/1_chrdevbase下执行make
+#### 3、在~/workspace/Linux_drivers/1_chrdevbase下执行make
 
 ```shell
 hya@hya:~/workspace/Linux_drivers/1_chrdevbase$ ls

@@ -168,4 +168,72 @@ int main(int argc, char *argv[])
 
 ```
 
+### 3、创建设备节点进行测试
+
+驱动加载成功需要在/dev 目录下创建一个与之对应的设备节点文件，应用程序就是通过操作这个设备节点文件来完成对具体设备的操作。输入如下命令创建/dev/chrdevbase 这个设备节点文件：  
+
+```shell
+mknod /dev/chrdevbase c 200 0
+```
+
+其中“mknod”是创建节点命令，“/dev/chrdevbase”是要创建的节点文件，“c”表示这是个字符设备，“200”是设备的主设备号，“0”是设备的次设备号。创建完成以后就会存在/dev/chrdevbase 这个文件，可以使用“ls -l /dev/chrdevbase ”命令查看  
+
+```shell
+[root@luckfox ]# ls -l dev/chrdevbase 
+crw-r--r--    1 root     root      200,   0 Jan  1 12:22 dev/chrdevbase
+```
+如果 chrdevbaseAPP 想要读写 chrdevbase 设备，直接对/dev/chrdevbase 进行读写操作即可。相当于/dev/chrdevbase 这个文件是 chrdevbase 设备在用户空间中的实现。
+
+```shell
+[root@luckfox ]# insmod chrdevbase.ko 
+[root@luckfox ]# 
+[root@luckfox ]# dmesg 
+[ 2473.903237] chrdevbase_init
+[ 2473.903274] register_chrdev
+[root@luckfox ]# 
+[root@luckfox ]# mknod /dev/chrdevbase c 200 0
+[root@luckfox ]# 
+[root@luckfox ]# ./chrdevbaseAPP /dev/chrdevbase 1
+APP read data:�}��
+[root@luckfox ]# 
+[root@luckfox ]# dmesg 
+[ 2473.903237] chrdevbase_init
+[ 2473.903274] register_chrdev
+[ 2518.565880] chrdevbase_open
+[ 2518.565959] chrdevbase_read
+[ 2518.566297] chrdevbase_release
+[root@luckfox ]# 
+[root@luckfox ]# ./chrdevbaseAPP /dev/chrdevbase 2
+[root@luckfox ]# 
+[root@luckfox ]# dmesg 
+[ 2473.903237] chrdevbase_init
+[ 2473.903274] register_chrdev
+[ 2518.565880] chrdevbase_open
+[ 2518.565959] chrdevbase_read
+[ 2518.566297] chrdevbase_release
+[ 2523.051944] chrdevbase_open
+[ 2523.052053] chrdevbase_write
+[ 2523.052078] chrdevbase_release
+[root@luckfox ]# 
+[root@luckfox ]# 
+[root@luckfox ]# rmmod chrdevbase
+[root@luckfox ]# 
+[root@luckfox ]# dmesg 
+[ 2473.903237] chrdevbase_init
+[ 2473.903274] register_chrdev
+[ 2518.565880] chrdevbase_open
+[ 2518.565959] chrdevbase_read
+[ 2518.566297] chrdevbase_release
+[ 2523.051944] chrdevbase_open
+[ 2523.052053] chrdevbase_write
+[ 2523.052078] chrdevbase_release
+[ 2530.509526] unregister_chrdev
+[ 2530.509558] chrdevbase_exit
+
+```
+
+可以看到在测试时./chrdevbaseAPP /dev/chrdevbase 1对应读操作，内核则打印了read函数的内容  
+./chrdevbaseAPP /dev/chrdevbase 2对应写操作，内核打印了写操作的内容
+
+
 
